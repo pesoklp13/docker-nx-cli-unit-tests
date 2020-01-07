@@ -1,6 +1,6 @@
-FROM trion/ng-cli:8.3.21
+FROM soleware/nx-cli:8.5.2
 
-MAINTAINER trion development GmbH "info@trion.de"
+MAINTAINER PesokLP13 "pesoklp13@gmail.com"
 ARG CHROME_VERSION=<unset>
 
 LABEL chrome=$CHROME_VERSION

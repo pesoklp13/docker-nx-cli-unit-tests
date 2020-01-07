@@ -1,30 +1,30 @@
-# docker-ng-cli-karma
+# docker-nx-cli-unit-tests
 
-Docker container to run Karma tests with Angular CLI inside Docker using Xvfb
+Docker container to run jest unit tests with Angular CLI & nx inside Docker using Xvfb
 
 ## Example usage
 ```
-docker run -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng new MyDemo
+docker run -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng new MyDemo
 cd MyDemo
-docker run -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng serve -host 0.0.0.0
-docker run -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng build
+docker run -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng serve -host 0.0.0.0
+docker run -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng build
 ```
 
 If you want to clone additional git repositories, f.e. from package.json, and you run with a different user than uid 1000 you need to mount the passwd since git requires to resolve the uid.
 
 ```
-docker run -u $(id -u) --rm -p 4200:4200 -v /etc/passwd:/etc/passwd -v "$PWD":/app trion/ng-cli npm install
+docker run -u $(id -u) --rm -p 4200:4200 -v /etc/passwd:/etc/passwd -v "$PWD":/app soleware/nx-cli npm install
 ```
 
 
-## Running karma unit tests in docker container
+## Running jest unit tests in docker container
 ```
-docker run -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng test
+docker run -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng test
 ```
 
-## Running karma unit tests in docker container, exiting after test run
+## Running jest unit tests in docker container, exiting after test run
 ```
-docker run -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng test --watch false --single-run true
+docker run -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng test --watch false --single-run true
 ```
 
 ## Using WebGL
@@ -34,7 +34,7 @@ In order to use the WebGL configuration, you need to use `xvfb-chromium-webgl` i
 
 That wrapper has the additional switches `--enable-webgl --ignore-gpu-blacklist` enabled, which are required for software WebGL rendering.
 
-This can be configured in the karma configuration, f.e.
+This can be configured in the jest configuration, f.e.
 
 ```
 browsers: ['/usr/bin/xvfb-chromium-webgl'],
@@ -43,7 +43,7 @@ browsers: ['/usr/bin/xvfb-chromium-webgl'],
 or you can specify the chrome excutable using the `CHROME_BIN` environment variable like
 
 ```
-docker run -e CHROME_BIN=/usr/bin/xvfb-chromium-webgl -u $(id -u) --rm -v "$PWD":/app trion/ng-cli-karma ng test --single-run
+docker run -e CHROME_BIN=/usr/bin/xvfb-chromium-webgl -u $(id -u) --rm -v "$PWD":/app soleware/nx-cli-unit-tests ng test --single-run
 ```
 
 ## Interactive debugging
@@ -52,7 +52,7 @@ To do so you need to export the display, bind the /tmp sockets, and select the p
 startup wrapper via the `CHROME_BIN` environment variable:
 
 ```
-docker run -e DISPLAY=:0 -e CHROME_BIN=/usr/bin/display-chromium -u $(id -u) --rm -v /tmp:/tmp -v "$PWD":/app trion/ng-cli-karma ng test
+docker run -e DISPLAY=:0 -e CHROME_BIN=/usr/bin/display-chromium -u $(id -u) --rm -v /tmp:/tmp -v "$PWD":/app soleware/nx-cli-unit-tests ng test
 ```
 
 If you forget to expose the /tmp/.X* socket you'll get an error message like:
